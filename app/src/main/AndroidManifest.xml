@@ -16,6 +16,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailActivity"/>
+
+        <service
+            android:name=".service.DownloadService"
+            android:exported="false"/>
+
+
     </application>
 
 </manifest>

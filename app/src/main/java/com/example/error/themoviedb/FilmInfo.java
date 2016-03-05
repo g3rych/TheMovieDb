@@ -5,6 +5,7 @@ import android.util.Log;
 import java.io.Serializable;
 
 public class FilmInfo implements Serializable {
+    private int id;
     private String title;
     private String poster;
     private String plot;
@@ -12,12 +13,17 @@ public class FilmInfo implements Serializable {
     private String release_date;
     private static String TAG = FilmInfo.class.getSimpleName();
 
-    public FilmInfo(String title, String poster, String plot, double rating, String release_date) {
+    public FilmInfo(int id, String title, String poster, String plot, double rating, String release_date) {
+        this.id = id;
         this.title = title;
         this.poster = poster;
         this.plot = plot;
         this.rating = rating;
         this.release_date = release_date;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getRelease_date() {
@@ -58,5 +64,10 @@ public class FilmInfo implements Serializable {
 
     public void setPlot(String plot) {
         this.plot = plot;
+    }
+
+
+    public interface MovieData {
+        public void getOverviewInfo();
     }
 }
