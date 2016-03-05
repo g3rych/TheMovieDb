@@ -12,4 +12,10 @@ public final class DBContract {
         public static final String RELEASE_DATE = "release_date";
         public static final String RATING = "rating";
     }
+
+    public static abstract class TrailersEntry implements BaseColumns {
+        public static final String TABLE_NAME = "trailers";
+        public static final String MOVIE_id = "movie_id";
+        public static final String SOURCE = "source";
+    }
 }

@@ -20,7 +20,10 @@
         <service
             android:name=".service.DownloadService"
             android:exported="false"/>
-
+        <provider
+            android:authorities="com.example.error.themoviedb.provider"
+            android:name=".data.MovieProvide"
+            android:exported="false"/>
 
     </application>
 

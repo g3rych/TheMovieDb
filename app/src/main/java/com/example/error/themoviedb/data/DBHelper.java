@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.error.themoviedb.data.DBContract.MoviesEntry;
+import com.example.error.themoviedb.data.DBContract.TrailersEntry;
 
 public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "themovie.db";
@@ -22,15 +23,23 @@ public class DBHelper extends SQLiteOpenHelper {
         final String createTable =
                 "CREATE TABLE " + MoviesEntry.TABLE_NAME + " ( " +
                         MoviesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-
                         MoviesEntry.MOVIE_id + " INTEGER NOT NULL, " +
                         MoviesEntry.TITLE + " TEXT NOT NULL, " +
                         MoviesEntry.PLOT + " TEXT NOT NULL, " +
                         MoviesEntry.POSTER + " TEXT NOT NULL, " +
                         MoviesEntry.RATING + " REAL NOT NULL, " +
-                        MoviesEntry.RELEASE_DATE + " TEXT NOT NULL " + ")";
-
+                        MoviesEntry.RELEASE_DATE + " TEXT NOT NULL " +
+                        " FOREIGN KEY " + MoviesEntry.MOVIE_id + " REFERENCES " +
+                        TrailersEntry.TABLE_NAME + "(" + TrailersEntry.MOVIE_id + ")" + ");" ;
         db.execSQL(createTable);
+
+
+        final String createTableTrailers =
+                "CREATE TABLE " + TrailersEntry.TABLE_NAME + " ( " +
+                        TrailersEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        TrailersEntry.MOVIE_id + " INTEGER NOT NULL, " +
+                        TrailersEntry.SOURCE + " TEXT NOT NULL " + " ) ";
+        db.execSQL(createTableTrailers);
     }
 
     @Override
