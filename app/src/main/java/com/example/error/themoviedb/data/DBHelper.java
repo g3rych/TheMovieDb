@@ -28,9 +28,9 @@ public class DBHelper extends SQLiteOpenHelper {
                         MoviesEntry.PLOT + " TEXT NOT NULL, " +
                         MoviesEntry.POSTER + " TEXT NOT NULL, " +
                         MoviesEntry.RATING + " REAL NOT NULL, " +
-                        MoviesEntry.RELEASE_DATE + " TEXT NOT NULL " +
-                        " FOREIGN KEY " + MoviesEntry.MOVIE_id + " REFERENCES " +
-                        TrailersEntry.TABLE_NAME + "(" + TrailersEntry.MOVIE_id + ")" + ");" ;
+                        MoviesEntry.RELEASE_DATE + " TEXT NOT NULL, " +
+                        " FOREIGN KEY " + "(" + MoviesEntry.MOVIE_id+")" + " REFERENCES " +
+                        TrailersEntry.TABLE_NAME + " (" + TrailersEntry.MOVIE_id + ") " + ");" ;
         db.execSQL(createTable);
 
 
