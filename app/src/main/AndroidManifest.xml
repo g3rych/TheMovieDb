@@ -22,10 +22,9 @@
             android:exported="false"/>
         <provider
             android:authorities="com.example.error.themoviedb.provider"
-             android:name=".data.MoviesProvider"
+            android:name=".data.MoviesProvider"
             android:exported="false"/>
 
     </application>
-
 
 </manifest>

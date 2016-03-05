@@ -1,11 +1,15 @@
 package com.example.error.themoviedb.service;
 
 import android.app.IntentService;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.example.error.themoviedb.FilmInfo;
+import com.example.error.themoviedb.data.DBContract;
+import com.example.error.themoviedb.data.DBContract.MoviesEntry;
+import com.example.error.themoviedb.data.MoviesProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,6 +106,14 @@ public class DownloadService extends IntentService {
                         plot,
                         rating,
                         release_date));
+                ContentValues cv = new ContentValues();
+                cv.put(MoviesEntry.MOVIE_id,id);
+                cv.put(MoviesEntry.TITLE,title);
+                cv.put(MoviesEntry.POSTER,poster);
+                cv.put(MoviesEntry.PLOT,plot);
+                cv.put(MoviesEntry.RATING,rating);
+                cv.put(MoviesEntry.RELEASE_DATE,release_date);
+                getContentResolver().insert(MoviesProvider.MOVIE_PATH,cv);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -113,15 +125,22 @@ public class DownloadService extends IntentService {
     }
     public void getTrailers(String JSONString) {
         ArrayList<String> trailerList = new ArrayList<String>();
+        int id;
+        String source;
         try {
             JSONObject detailStr = new JSONObject(JSONString);
+            id = detailStr.getInt("id");
             JSONObject trailers = detailStr.getJSONObject("trailers");
             JSONArray youtube = trailers.getJSONArray("youtube");
             Log.d(TAG,""+youtube.length());
             for (int i = 0; i < youtube.length(); i++) {
-                String source = youtube.getJSONObject(i).getString("source");
-                Log.d(TAG,source);
+                source = youtube.getJSONObject(i).getString("source");
+                Log.d(TAG, source);
                 trailerList.add(source);
+                ContentValues cv = new ContentValues();
+                cv.put(DBContract.TrailersEntry.MOVIE_id,id);
+                cv.put(DBContract.TrailersEntry.SOURCE,source);
+                getContentResolver().insert(MoviesProvider.TRAILER_PATH,cv);
             }
             Intent trailersIntent = new Intent("trailers");
             trailersIntent.putExtra("trailers",trailerList);
