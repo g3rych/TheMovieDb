@@ -29,10 +29,9 @@ public class MoviesProvider extends ContentProvider {
     private static final int ALLMOVIES = 100;
     private static final int SINGLEMOVIE = 101;
 
-    private static final int INSERTMOVIE = 150;
 
     private static final int TRAILERS = 200;
-    private static final int INSERTTRAILER = 250;
+
 
     private static UriMatcher sUriMatcher;
     static {
