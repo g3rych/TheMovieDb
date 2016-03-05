@@ -1,5 +1,6 @@
 package com.example.error.themoviedb;
 
+import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -54,9 +55,6 @@ public class DetailFragment extends Fragment {
         IntentFilter filter = new IntentFilter("trailers");
         ResponseReciever reciever = new ResponseReciever();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(reciever, filter);
-
-
-
         return rootView;
     }
     private class ResponseReciever extends BroadcastReceiver {

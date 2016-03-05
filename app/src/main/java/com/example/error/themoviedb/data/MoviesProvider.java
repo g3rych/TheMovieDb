@@ -16,12 +16,14 @@ import com.example.error.themoviedb.data.DBContract.TrailersEntry;
 
 public class MoviesProvider extends ContentProvider {
     public static final String CONTENT_AUTHORITY = "com.example.error.themoviedb.provider";
+
     public static final String URL = "content://" + "com.example.error.themoviedb.provider";
     public static final Uri CONTENT_URI = Uri.parse(URL);
 
 
     public static final Uri MOVIE_PATH = Uri.withAppendedPath(CONTENT_URI,MoviesEntry.TABLE_NAME);
     public static final Uri TRAILER_PATH = Uri.withAppendedPath(CONTENT_URI,TrailersEntry.TABLE_NAME);
+
 
 
     private static final int ALLMOVIES = 100;
@@ -59,10 +61,13 @@ public class MoviesProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         long id;
         switch (sUriMatcher.match(uri)) {
+
             case ALLMOVIES :
                 id = db.insert(MoviesEntry.TABLE_NAME,null,values);
                 return ContentUris.withAppendedId(MOVIE_PATH,id);
+
             case TRAILERS :
+
                 id = db.insert(TrailersEntry.TABLE_NAME,null,values);
                 return ContentUris.withAppendedId(TRAILER_PATH,id);
 
