@@ -59,13 +59,6 @@ public class MainFragment extends Fragment {
 
             }
         });
-
-        final String URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&" +
-                            "api_key=6dece3ed1b9e1950498be7673d071bdf";
-        Intent intent = new Intent(getActivity(), DownloadService.class);
-        intent.setData(Uri.parse(URL));
-        getActivity().startService(intent);
-
         return rootView;
     }
 

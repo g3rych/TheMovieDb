@@ -63,9 +63,4 @@ public class FilmItem implements Serializable {
     public void setPlot(String plot) {
         this.plot = plot;
     }
-
-
-    public interface MovieData {
-        public void getOverviewInfo();
-    }
 }
