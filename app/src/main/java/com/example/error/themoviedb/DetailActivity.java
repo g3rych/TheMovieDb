@@ -1,6 +1,5 @@
 package com.example.error.themoviedb;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -12,7 +11,7 @@ public class DetailActivity extends AppCompatActivity {
 
 
 
-        FilmInfo film = (FilmInfo) getIntent().getSerializableExtra("FILM");
+        FilmItem film = (FilmItem) getIntent().getSerializableExtra("FILM");
 
         Bundle arg = new Bundle();
         arg.putSerializable("FILM", film);

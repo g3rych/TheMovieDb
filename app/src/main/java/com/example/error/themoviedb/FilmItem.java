@@ -1,19 +1,17 @@
 package com.example.error.themoviedb;
 
-import android.util.Log;
-
 import java.io.Serializable;
 
-public class FilmInfo implements Serializable {
+public class FilmItem implements Serializable {
     private int id;
     private String title;
     private String poster;
     private String plot;
     private double rating;
     private String release_date;
-    private static String TAG = FilmInfo.class.getSimpleName();
+    private static String TAG = FilmItem.class.getSimpleName();
 
-    public FilmInfo(int id, String title, String poster, String plot, double rating, String release_date) {
+    public FilmItem(int id, String title, String poster, String plot, double rating, String release_date) {
         this.id = id;
         this.title = title;
         this.poster = poster;

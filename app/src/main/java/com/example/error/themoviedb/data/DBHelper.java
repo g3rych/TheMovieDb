@@ -22,8 +22,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         final String createTable =
                 "CREATE TABLE " + MoviesEntry.TABLE_NAME + " ( " +
-                        MoviesEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        MoviesEntry.MOVIE_id + " INTEGER NOT NULL, " +
+                        MoviesEntry._ID + " INTEGER PRIMARY KEY, " +
+                        MoviesEntry.MOVIE_id + " INTEGER UNIQUE NOT NULL, " +
                         MoviesEntry.TITLE + " TEXT NOT NULL, " +
                         MoviesEntry.PLOT + " TEXT NOT NULL, " +
                         MoviesEntry.POSTER + " TEXT NOT NULL, " +

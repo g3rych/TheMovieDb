@@ -1,6 +1,5 @@
 package com.example.error.themoviedb;
 
-import android.content.AsyncQueryHandler;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,11 +31,11 @@ public class DetailFragment extends Fragment {
         TextView tv_title = (TextView) rootView.findViewById(R.id.tv_title);
         TextView tv_plot = (TextView) rootView.findViewById(R.id.tv_plot);
         trailView = (TextView) rootView.findViewById(R.id.traierls);
-        FilmInfo film;
+        FilmItem film;
 
         Bundle args = getArguments();
 
-            film = (FilmInfo) args.getSerializable("FILM");
+            film = (FilmItem) args.getSerializable("FILM");
             Picasso.with(getActivity()).load(film.getPoster()).into(img_poster);
             tv_title.setText(film.getTitle());
             tv_plot.setText(film.getPlot());
@@ -51,19 +49,9 @@ public class DetailFragment extends Fragment {
         intent.putExtra("isDetails",true);
         getActivity().startService(intent);
 
-
-        IntentFilter filter = new IntentFilter("trailers");
-        ResponseReciever reciever = new ResponseReciever();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(reciever, filter);
         return rootView;
     }
-    private class ResponseReciever extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            trailerList = (ArrayList<String>) intent.getSerializableExtra("trailers");
-            trailView.setText(trailerList.get(0));
-         }
-    }
+
 
 
 

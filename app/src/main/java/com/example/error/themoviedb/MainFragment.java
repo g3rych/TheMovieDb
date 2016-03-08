@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -13,27 +12,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.error.themoviedb.service.DownloadService;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class MainFragment extends Fragment {
     private static String TAG = MainFragment.class.getSimpleName();
     private ImageAdapter adapter;
-    private ArrayList<FilmInfo> films = new ArrayList<>();
+    private ArrayList<FilmItem> films = new ArrayList<>();
     private GridView gridView;
 
 
@@ -50,34 +40,36 @@ public class MainFragment extends Fragment {
                 ((CallBack) getActivity()).onItemSelected(films.get(position));
             }
         });
+        gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (firstVisibleItem+visibleItemCount >= totalItemCount) {
+                    final String URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&" +
+                            "api_key=6dece3ed1b9e1950498be7673d071bdf&page=2";
+                    Intent intent = new Intent(getActivity(), DownloadService.class);
+                    intent.setData(Uri.parse(URL));
+                    getActivity().startService(intent);
+
+                }
+
+            }
+        });
+
         final String URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&" +
                             "api_key=6dece3ed1b9e1950498be7673d071bdf";
         Intent intent = new Intent(getActivity(), DownloadService.class);
         intent.setData(Uri.parse(URL));
         getActivity().startService(intent);
 
-
-        IntentFilter filter = new IntentFilter("overview");
-        ResponseReciever reciever = new ResponseReciever();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(reciever,filter);
         return rootView;
     }
 
     public interface CallBack {
-        void onItemSelected(FilmInfo film);
+        void onItemSelected(FilmItem film);
     }
-
-    private class ResponseReciever extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            films = (ArrayList<FilmInfo>) intent.getSerializableExtra("films");
-            Log.d(TAG,films.size()+"");
-
-            adapter.addAll(films);
-
-        }
-    }
-
-
-
 }

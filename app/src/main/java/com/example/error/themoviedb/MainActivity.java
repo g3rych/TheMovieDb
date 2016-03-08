@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.error.themoviedb.data.DBHelper;
+import com.example.error.themoviedb.service.ServiceHelper;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -18,13 +19,10 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DBHelper dbHelper = new DBHelper(this);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
     }
 
     @Override
-    public void onItemSelected(FilmInfo film) {
+    public void onItemSelected(FilmItem film) {
         Intent intent  = new Intent(this, DetailActivity.class);
         intent.putExtra("FILM",film);
 

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.example.error.themoviedb.FilmInfo;
+import com.example.error.themoviedb.FilmItem;
 import com.example.error.themoviedb.data.DBContract;
 import com.example.error.themoviedb.data.DBContract.MoviesEntry;
 import com.example.error.themoviedb.data.MoviesProvider;
@@ -17,10 +17,13 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 
 public class DownloadService extends IntentService {
@@ -77,7 +80,7 @@ public class DownloadService extends IntentService {
 
 
     public void parseData(String JSONStr) {
-        ArrayList<FilmInfo> films = new ArrayList<>();
+        ArrayList<FilmItem> films = new ArrayList<>();
         Log.d(TAG,"parseDATA");
         final String base_url = "http://image.tmdb.org/t/p/";
         final String size = "w185";
@@ -100,7 +103,7 @@ public class DownloadService extends IntentService {
                 file_path = film.getString("poster_path");
                 poster = (base_url + size + file_path);
                 release_date = film.getString("release_date");
-                films.add(new FilmInfo(id,
+                films.add(new FilmItem(id,
                         title,
                         poster,
                         plot,
@@ -143,7 +146,7 @@ public class DownloadService extends IntentService {
                 getContentResolver().insert(MoviesProvider.TRAILER_PATH,cv);
             }
             Intent trailersIntent = new Intent("trailers");
-            trailersIntent.putExtra("trailers",trailerList);
+            trailersIntent.putExtra("trailers", trailerList);
             LocalBroadcastManager.getInstance(this).sendBroadcast(trailersIntent);
 
         }catch (JSONException e) {
