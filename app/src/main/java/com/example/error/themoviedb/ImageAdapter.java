@@ -12,14 +12,14 @@ import com.squareup.picasso.Picasso;
 
 
 
-public class ImageAdapter extends ArrayAdapter<FilmInfo> {
+
+public class ImageAdapter extends ArrayAdapter<FilmItem> {
     private static String TAG = ImageAdapter.class.getSimpleName();
     private LayoutInflater mInflater;
 
     public ImageAdapter(Context context) {
         super(context,R.layout.poster_layout);
         mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 
     }
 
@@ -32,7 +32,7 @@ public class ImageAdapter extends ArrayAdapter<FilmInfo> {
                 view = convertView;
             }
 
-        FilmInfo item = getItem(position);
+        FilmItem item = getItem(position);
         Log.d(TAG,item.getPoster());
         ImageView imgView  = (ImageView) view.findViewById(R.id.poster_image_view);
         Picasso.with(getContext()).load(item.getPoster()).into(imgView);
