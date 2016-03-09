@@ -1,22 +1,28 @@
 package com.example.error.themoviedb;
 
 
+
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
+
+import com.example.error.themoviedb.adapter.GridCursorAdapter;
+import com.example.error.themoviedb.data.MoviesProvider;
 import com.example.error.themoviedb.service.ServiceHelper;
 
-import java.util.ArrayList;
-
-public class MainFragment extends Fragment{
+public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static String TAG = MainFragment.class.getSimpleName();
-    private ImageAdapter adapter;
-    private ArrayList<FilmItem> films = new ArrayList<>();
+    GridCursorAdapter adapter;
+
     private GridView gridView;
 
 
@@ -24,13 +30,13 @@ public class MainFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View rootView = inflater.inflate(R.layout.fragment_main,container,false);
         gridView = (GridView) rootView.findViewById(R.id.grid);
-        adapter = new ImageAdapter(getActivity());
+        adapter = new GridCursorAdapter(getActivity(),null,0);
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((CallBack) getActivity()).onItemSelected(films.get(position));
+
             }
         });
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -41,14 +47,29 @@ public class MainFragment extends Fragment{
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+                if (visibleItemCount <= totalItemCount) {
                     ServiceHelper.getInstance().listViewNextPage(getActivity());
                 }
             }
         });
+        getLoaderManager().initLoader(0,null,this);
         return rootView;
     }
 
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.swapCursor(data);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(getActivity(), MoviesProvider.MOVIE_PATH,null,null,null,null);
+    }
 
     public interface CallBack {
         void onItemSelected(FilmItem film);
