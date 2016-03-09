@@ -5,30 +5,23 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-
 import com.example.error.themoviedb.FilmItem;
 import com.example.error.themoviedb.data.DBContract;
 import com.example.error.themoviedb.data.DBContract.MoviesEntry;
 import com.example.error.themoviedb.data.MoviesProvider;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
+
 import java.util.ArrayList;
 
 public class DownloadService extends IntentService {
-    public static String FILM_ID = "FILM_ID";
-
     private static String TAG = DownloadService.class.getSimpleName();
 
     public DownloadService(){
@@ -39,7 +32,6 @@ public class DownloadService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         String movieData = "";
         final String URL = intent.getDataString();
-
         try {
             Log.d(TAG,URL);
             movieData = getJsonString(URL);
@@ -114,16 +106,12 @@ public class DownloadService extends IntentService {
                 cv.put(MoviesEntry.TITLE,title);
                 cv.put(MoviesEntry.POSTER,poster);
                 cv.put(MoviesEntry.PLOT,plot);
-                cv.put(MoviesEntry.RATING,rating);
-                cv.put(MoviesEntry.RELEASE_DATE,release_date);
+                cv.put(MoviesEntry.RATING, rating);
+                cv.put(MoviesEntry.RELEASE_DATE, release_date);
                 getContentResolver().insert(MoviesProvider.MOVIE_PATH,cv);
             }
         } catch (JSONException e) {
             e.printStackTrace();
-        } finally {
-            Intent localIntent = new Intent("overview");
-            localIntent.putExtra("films", films);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
         }
     }
     public void getTrailers(String JSONString) {
@@ -145,10 +133,6 @@ public class DownloadService extends IntentService {
                 cv.put(DBContract.TrailersEntry.SOURCE,source);
                 getContentResolver().insert(MoviesProvider.TRAILER_PATH,cv);
             }
-            Intent trailersIntent = new Intent("trailers");
-            trailersIntent.putExtra("trailers", trailerList);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(trailersIntent);
-
         }catch (JSONException e) {
             e.printStackTrace();
         }
