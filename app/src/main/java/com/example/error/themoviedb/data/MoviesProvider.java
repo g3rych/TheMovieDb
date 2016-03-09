@@ -38,7 +38,6 @@ public class MoviesProvider extends ContentProvider {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         sUriMatcher.addURI(CONTENT_AUTHORITY,MoviesEntry.TABLE_NAME,ALLMOVIES);
         sUriMatcher.addURI(CONTENT_AUTHORITY,MoviesEntry.TABLE_NAME + "/#",SINGLEMOVIE);
-
         sUriMatcher.addURI(CONTENT_AUTHORITY,TrailersEntry.TABLE_NAME,TRAILERS);
     }
 
@@ -59,20 +58,20 @@ public class MoviesProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         long id;
+        Uri retUri;
         switch (sUriMatcher.match(uri)) {
-
             case ALLMOVIES :
-                id = db.insert(MoviesEntry.TABLE_NAME,null,values);
-                return ContentUris.withAppendedId(MOVIE_PATH,id);
-
+                id = db.insert(MoviesEntry.TABLE_NAME, null, values);
+                retUri = ContentUris.withAppendedId(MOVIE_PATH, id);
+                 break;
             case TRAILERS :
-
-                id = db.insert(TrailersEntry.TABLE_NAME,null,values);
-                return ContentUris.withAppendedId(TRAILER_PATH,id);
-
+                id = db.insert(TrailersEntry.TABLE_NAME, null, values);
+                retUri = ContentUris.withAppendedId(TRAILER_PATH,id);
+                break;
             default:throw new SQLiteException("failed to insert into " + uri.toString());
         }
-
+        getContext().getContentResolver().notifyChange(retUri,null);
+        return retUri;
     }
 
 
@@ -89,25 +88,31 @@ public class MoviesProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
             case ALLMOVIES :
-                return db.query(MoviesEntry.TABLE_NAME,
+                retCursor =  db.query(MoviesEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
                         null,
                         null,
                         null);
+                break;
             case SINGLEMOVIE :
                 return db.query(MoviesEntry.TABLE_NAME,projection,
                         selection,selectionArgs,
                         null,null,null);
             case TRAILERS :
-                return db.query(TrailersEntry.TABLE_NAME,projection,
+                retCursor = db.query(TrailersEntry.TABLE_NAME,projection,
                         selection,selectionArgs,
                         null,null,null);
+                break;
             default: throw new UnsupportedOperationException("Unknow uri " + uri.toString());
         }
+        retCursor.setNotificationUri(getContext().getContentResolver(),uri);
+        return retCursor;
+
     }
 
     @Override
