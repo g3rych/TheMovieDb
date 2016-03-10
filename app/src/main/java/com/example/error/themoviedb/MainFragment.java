@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,7 @@ import com.example.error.themoviedb.service.ServiceHelper;
 
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static String TAG = MainFragment.class.getSimpleName();
-    GridCursorAdapter adapter;
-
+    private GridCursorAdapter adapter;
     private GridView gridView;
 
 
@@ -32,6 +32,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         gridView = (GridView) rootView.findViewById(R.id.grid);
         adapter = new GridCursorAdapter(getActivity(),null,0);
         gridView.setAdapter(adapter);
+        ServiceHelper.getInstance().listViewNextPage(getActivity());
+
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -39,20 +41,10 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
 
             }
         });
-        gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+        gridView.setOnScrollListener(new EndLessScroll(getActivity()));
 
-            }
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (visibleItemCount <= totalItemCount) {
-                    ServiceHelper.getInstance().listViewNextPage(getActivity());
-                }
-            }
-        });
-        getLoaderManager().initLoader(0,null,this);
+        getLoaderManager().initLoader(0, null, this);
         return rootView;
     }
 
