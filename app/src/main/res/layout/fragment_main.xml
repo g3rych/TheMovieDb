@@ -5,7 +5,6 @@
     android:numColumns="auto_fit"
     android:verticalSpacing="1dp"
     android:horizontalSpacing="1dp">
-    <!--android:columnWidth="90dp">-->
 
 
 </GridView>

@@ -14,13 +14,13 @@ import com.example.error.themoviedb.R;
 
 
 public class GridCursorAdapter extends CursorAdapter {
-    public static int _id = 0;
-    public static int movie_id = 1;
-    public static int title = 2;
-    public static int plot = 3;
-    public static int poster = 4;
-    public static int rating = 5;
-    public static int release_date = 6;
+    public static final int _ID = 0;
+    public static final int MOVIE_ID = 1;
+    public static final int TITLE = 2;
+    public static final int PLOT = 3;
+    public static final int POSTER = 4;
+    public static final int RATING = 5;
+    public static final int RELEASE_DATE = 6;
 
     public GridCursorAdapter(Context context,Cursor cursor,int flags) {
         super(context,cursor,flags);
@@ -31,7 +31,7 @@ public class GridCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ImageView img = (ImageView) view.findViewById(R.id.poster_image_view);
 
-        Glide.with(context).load(cursor.getString(4)).crossFade().into(img);
+        Glide.with(context).load(cursor.getString(POSTER)).crossFade().into(img);
 
 
     }
