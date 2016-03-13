@@ -23,7 +23,7 @@ public class EndLessScroll implements AbsListView.OnScrollListener {
     public void onScrollStateChanged(AbsListView view, int scrollState) {
             if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
                 if (view.getFirstVisiblePosition() + visibleItemCount >= view.getCount() ) {
-                    ServiceHelper.getInstance().listViewNextPage(mContext);
+                    ServiceHelper.getInstance().gridViewNextPage(mContext);
                 }
             }
     }

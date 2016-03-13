@@ -10,7 +10,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +33,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         gridView = (GridView) rootView.findViewById(R.id.grid);
         adapter = new GridCursorAdapter(getActivity(),null,0);
         gridView.setAdapter(adapter);
-        ServiceHelper.getInstance().clearDB(getActivity());
-        ServiceHelper.getInstance().listViewNextPage(getActivity());
+
 
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -43,8 +41,9 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = (Cursor) adapter.getItem(position);
                 long _id = cursor.getLong(0);
+                int movie_id = cursor.getInt(1);
                 Uri uri = MoviesProvider.MOVIE_PATH.buildUpon().appendPath(Long.toString(_id)).build();
-                ((CallBack) getActivity()).onItemSelected(uri);
+                ((CallBack) getActivity()).onItemSelected(uri,movie_id);
             }
         });
         gridView.setOnScrollListener(new EndLessScroll(getActivity()));
@@ -70,6 +69,6 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     public interface CallBack {
-        void onItemSelected(Uri uri);
+        void onItemSelected(Uri uri,int movie_id);
     }
 }
