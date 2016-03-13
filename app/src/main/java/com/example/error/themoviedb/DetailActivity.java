@@ -9,12 +9,10 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_detail);
 
-
-
-        FilmItem film = (FilmItem) getIntent().getSerializableExtra("FILM");
-
         Bundle arg = new Bundle();
-        arg.putSerializable("FILM", film);
+        arg.putParcelable("uri",getIntent().getData());
+        arg.putInt("movie_id",getIntent().getIntExtra("movie_id",0));
+
 
         DetailFragment fragment = new DetailFragment();
         fragment.setArguments(arg);

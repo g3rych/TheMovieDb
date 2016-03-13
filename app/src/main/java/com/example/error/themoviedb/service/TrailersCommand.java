@@ -2,6 +2,8 @@ package com.example.error.themoviedb.service;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 
 import com.example.error.themoviedb.data.DBContract;
 import com.example.error.themoviedb.data.MoviesProvider;
@@ -51,6 +53,7 @@ public class TrailersCommand {
         ArrayList<String> trailerList = new ArrayList<String>();
         int id;
         String source;
+        Log.d("TrailersCommand",JSONString);
         try {
             JSONObject detailStr = new JSONObject(JSONString);
             id = detailStr.getInt("id");
@@ -64,7 +67,9 @@ public class TrailersCommand {
                 ContentValues cv = new ContentValues();
                 cv.put(DBContract.TrailersEntry.MOVIE_id, id);
                 cv.put(DBContract.TrailersEntry.SOURCE, source);
+                Log.d("TrailersCommand", source);
                 context.getContentResolver().insert(MoviesProvider.TRAILER_PATH, cv);
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

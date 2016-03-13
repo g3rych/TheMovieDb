@@ -29,7 +29,7 @@ public class ServiceHelper {
         return instance;
     }
 
-    public void listViewNextPage(Context context) {
+    public void gridViewNextPage(Context context) {
         page++;
         Intent intent = new Intent(context, DownloadService.class);
         final String URL = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&" +
@@ -38,6 +38,15 @@ public class ServiceHelper {
         intent.putExtra("action", DownloadService.ACTION_GRID_OVERVIEW);
         context.startService(intent);
         Log.d("ServiceHelper",URL);
+    }
+    public void getTrailers(Context context,int movie_id) {
+        Intent intent = new Intent(context, DownloadService.class);
+        final String URL = "http://api.themoviedb.org/3/movie/" + movie_id +
+                "?api_key=6dece3ed1b9e1950498be7673d071bdf&append_to_response=trailers";
+        intent.setData(Uri.parse(URL));
+        intent.putExtra("action", DownloadService.ACTION_TRAILERS_LIST);
+        context.startService(intent);
+        Log.d("TrailerServiceHelper",URL);
     }
 
     public void clearDB(Context context) {
