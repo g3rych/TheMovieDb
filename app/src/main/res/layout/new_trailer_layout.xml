@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/image_view_trailer"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_view_trailer"
+        android:layout_gravity="bottom"
+        android:textColor="@android:color/white"/>
+</FrameLayout>

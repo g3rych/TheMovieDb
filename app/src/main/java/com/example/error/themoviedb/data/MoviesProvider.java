@@ -78,7 +78,6 @@ public class MoviesProvider extends ContentProvider {
                 case TRAILERS:
                     id = db.insertWithOnConflict(TrailersEntry.TABLE_NAME, null, values,SQLiteDatabase.CONFLICT_REPLACE);
                     retUri = ContentUris.withAppendedId(TRAILER_PATH, id);
-                    Log.d("MoviesProvider",Uri.parse(MOVIE_PATH+"/1")+"");
                     getContext().getContentResolver().notifyChange(MOVIE_PATH, null);
                     break;
                 default:

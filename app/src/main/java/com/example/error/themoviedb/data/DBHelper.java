@@ -38,7 +38,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + TrailersEntry.TABLE_NAME + " ( " +
                         TrailersEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         TrailersEntry.MOVIE_id + " INTEGER NOT NULL, " +
-                        TrailersEntry.SOURCE + " TEXT NOT NULL " + " ) ";
+                        TrailersEntry.NAME + " TEXT NOT NULL, " +
+                        TrailersEntry.SOURCE + " TEXT UNIQUE NOT NULL " + " ) ";
         db.execSQL(createTableTrailers);
     }
 

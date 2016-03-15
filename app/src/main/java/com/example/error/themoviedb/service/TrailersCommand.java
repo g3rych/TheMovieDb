@@ -50,9 +50,9 @@ public class TrailersCommand {
     }
 
     public void getTrailers(String JSONString, Context context) {
-        ArrayList<String> trailerList = new ArrayList<String>();
         int id;
         String source;
+        String name;
         Log.d("TrailersCommand",JSONString);
         try {
             JSONObject detailStr = new JSONObject(JSONString);
@@ -62,10 +62,10 @@ public class TrailersCommand {
 
             for (int i = 0; i < youtube.length(); i++) {
                 source = youtube.getJSONObject(i).getString("source");
-
-                trailerList.add(source);
+                name = youtube.getJSONObject(i).getString("name");
                 ContentValues cv = new ContentValues();
                 cv.put(DBContract.TrailersEntry.MOVIE_id, id);
+                cv.put(DBContract.TrailersEntry.NAME,name);
                 cv.put(DBContract.TrailersEntry.SOURCE, source);
                 Log.d("TrailersCommand", source);
                 context.getContentResolver().insert(MoviesProvider.TRAILER_PATH, cv);

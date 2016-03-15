@@ -16,6 +16,7 @@ public final class DBContract {
     public static abstract class TrailersEntry implements BaseColumns {
         public static final String TABLE_NAME = "trailers";
         public static final String MOVIE_id = "movie_id";
+        public static final String NAME = "name";
         public static final String SOURCE = "source";
     }
 }
