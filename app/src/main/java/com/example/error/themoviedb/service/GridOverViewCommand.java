@@ -50,7 +50,7 @@ public class GridOverViewCommand {
     public void parseData(String JSONStr, Context context) {
         ArrayList<FilmItem> films = new ArrayList<>();
         final String base_url = "http://image.tmdb.org/t/p/";
-        final String size = "w185";
+        final String size = "w342";
         String file_path;
         int id;
         String title;
