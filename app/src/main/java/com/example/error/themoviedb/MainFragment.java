@@ -3,6 +3,7 @@ package com.example.error.themoviedb;
 
 
 import android.database.Cursor;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.error.themoviedb.adapter.GridCursorAdapter;
 import com.example.error.themoviedb.data.MoviesProvider;
@@ -43,13 +46,14 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
                 long _id = cursor.getLong(0);
                 int movie_id = cursor.getInt(1);
                 Uri uri = MoviesProvider.MOVIE_PATH.buildUpon().appendPath(Long.toString(_id)).build();
-                ((CallBack) getActivity()).onItemSelected(uri,movie_id);
+                ((CallBack) getActivity()).onItemSelected(uri, movie_id);
             }
         });
         gridView.setOnScrollListener(new EndLessScroll(getActivity()));
 
 
         getLoaderManager().initLoader(0, null, this);
+
         return rootView;
     }
 
@@ -71,4 +75,5 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public interface CallBack {
         void onItemSelected(Uri uri,int movie_id);
     }
+
 }
